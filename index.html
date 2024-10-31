@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于Daisy Hu</title>
+    
+    <!-- 添加调试代码 -->
+    <script>
+        window.onload = function() {
+            const images = document.getElementsByTagName('img');
+            for (let img of images) {
+                console.log('尝试加载图片:', img.src);
+                img.onerror = function() {
+                    console.log('图片加载失败:', img.src, '完整路径:', window.location.href + img.src);
+                };
+                            img.onload = function() {
+                    console.log('图片加载成功:', img.src);
+                };
+            }
+        }
+    </script>
+<script>
+    // 结构化简历数据
+    const resumeData = {
+        profile: {
+            name: "Daisy Hu",
+            title: ["可持续发展商务总监", "销售运营专家", "项目管理专家"],
+            about: "8年以上销售运营经验，5年一线Top sales销售工程师经验，对开发客户、市场需求及销售赋能有深入了解...",
+            contact: {
+                email: "qianerhu@126.com",
+                location: "上海"
+            }
+        },
+        experience: [
+            {
+                company: "JLL中国",
+                period: "2022.6 - 2023.9",
+                title: "可持续发展商务总监",
+                achievements: [
+                    "成功拓展并管理大中华区的绿色业务",
+                    "为超过10个项目设计并实施减排方案",
+                    "完成多项能源审计项目开发",
+                    "制定并指导实施科学减碳路径"
+                ]
+            },
+            // ... 其他工作经历
+        ],
+        skills: [
+            "项目管理",
+            "pipeline管理",
+            "销售运营",
+            "可持续发展",
+            "跨部门协调"
+        ]
+    };
+
+    // 智能问答功能
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatMessages = document.querySelector('.chat-messages');
+        const input = document.querySelector('.chat-input input');
+        const sendBtn = document.querySelector('.send-btn');
+        const minimizeBtn = document.querySelector('.minimize-btn');
+        const chatContainer = document.querySelector('.chat-container');
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateResponse(question) {
+            question = question.toLowerCase();
+            
+            // 检查是否是关于简历信息的问题
+            if (question.includes('工作经历') || question.includes('经验')) {
+                return `Daisy有丰富的工作经历，目前在${resumeData.experience[0].company}担任${resumeData.experience[0].title}，主要负责可持续发展业务。之前在施耐德电气、费斯托等公司担任重要职位，积累了丰富的行业经验。`;
+            }
+            
+            if (question.includes('技能') || question.includes('专长')) {
+                return `Daisy的主要技能包括：${resumeData.skills.join('、')}。特别擅长项目管理和销售运营。`;
+            }
+            
+            if (question.includes('联系') || question.includes('邮箱')) {
+                return `你可以通过邮箱 ${resumeData.profile.contact.email} 联系Daisy。她目前在${resumeData.profile.contact.location}工作。`;
+            }
+            
+            if (question.includes('介绍') || question.includes('是谁')) {
+                return resumeData.profile.about;
+            }
+            
+            // 处理其他问题
+            return '我理解你想了解关于这个问题的信息。你可以具体问问我关于Daisy的工作经历、技能专长或者联系方式。';
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const message = input.value.trim();
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                setTimeout(() => {
+                    addMessage(generateResponse(message));
+                }, 500);
+            }
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+
+        let isMinimized = false;
+        minimizeBtn.addEventListener('click', () => {
+            if (isMinimized) {
+                chatContainer.style.height = '400px';
+                minimizeBtn.textContent = '-';
+            } else {
+                chatContainer.style.height = '40px';
+                minimizeBtn.textContent = '+';
+            }
+            isMinimized = !isMinimized;
+        });
+    });
+</script>
+    </script>
+    
+    <style>
+        /* 基本页面样式 */
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        /* 头部容器样式 */
+        .header-container {
+            max-width: 800px;
+            margin-left: 250px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        /* 主标题样式 */
+        .main-title {
+            flex: 1;
+            padding: 60px 0;
+            text-align: left;
+        }
+
+        /* 个人照片样式 */
+        .profile-photo {
+            width: 150px;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 60px;
+            margin-left: 40px;
+        }
+
+        .main-title h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* 副标题样式 */
+        .subtitle {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+        }
+
+        /* 内容区域居中 */
+        .content-container {
+    margin-left: 260px; /* 为左侧边栏留出空间 */
+    max-width: 800px;
+}
+
+
+
+        /* About部分样式 */
+        .section {
+            margin-bottom: 50px;
+            margin-top: 20px; 
+        }
+
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .section p {
+            font-size: 1.1em;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Work Experience样式 */
+        .work-item {
+            margin-bottom: 40px;
+            padding: 20px 0;
+          
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            width: auto;
+            height: 30px;
+            object-fit: contain;
+            flex: 0 0 120px;  /* 固定宽度，保持logo对齐 */
+        }
+
+        .company-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .work-content {
+            padding-left: 120px;  /* 与logo宽度相同，保持对齐 */
+        }
+
+        .work-title {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .work-description {
+            font-size: 1.1em;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .work-description ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .work-description li {
+            margin-bottom: 8px;
+        }
+        /* 轮播图样式 */
+.slideshow-container {
+    max-width: 800px;
+    position: relative;
+    margin: auto;
+    margin-top: 20px;
+    overflow: hidden;  /* 隐藏超出部分 */
+}
+
+.slides-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;  /* 添加平滑过渡效果 */
+    gap: 10px;  /* 照片之间的间距 */
+}
+
+.slides {
+    flex: 0 0 calc(33.333% - 7px);  /* 每张照片占据1/3宽度，减去间距 */
+}
+
+.slides img {
+    width: 100%;
+    height: 250px;  /* 调整高度 */
+    object-fit: contain;  /* 保持图片比例 */
+    border-radius: 8px;
+}
+
+/* 淡入淡出动画 */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+/* 在style标签中添加聊天框样式 */
+.chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    touch-action: none; 
+    user-select: none; 
+}
+
+.chat-header {
+    cursor: move;
+    padding: 10px;
+    background: #4a90e2;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.assistant-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.minimize-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f5f5f5;
+}
+
+.message {
+    max-width: 80%;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    line-height: 1.4;
+}
+
+/* AI助理的消息 */
+.bot-message {
+    background-color: #e3f2fd;  /* 浅蓝色背景 */
+    color: #333;
+    float: left;
+    clear: both;
+    border-bottom-left-radius: 5px;
+}
+
+/* 用户的消息 */
+.user-message {
+    background-color: #4a90e2;  /* 深蓝色背景 */
+    color: white;
+    float: right;
+    clear: both;
+    border-bottom-right-radius: 5px;
+}
+
+/* 清除浮动 */
+.chat-messages::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+./* 修改聊天输入框的样式 */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+    gap: 10px;
+    position: relative;  /* 添加这行 */
+    bottom: 0;          /* 添加这行 */
+    width: 100%;        /* 添加这行 */
+    box-sizing: border-box; /* 添加这行 */
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;  /* 添加这行，防止按钮文字换行 */
+}
+
+.send-btn {
+    padding: 8px 15px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background: #357abd;
+}
+    /* 现有的其他样式... */
+
+    /* 两栏布局容器 */
+    .page-container {
+    position: relative; /* 为绝对定位的sidebar提供参考 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+    /* 左侧边栏样式 */
+    .sidebar {
+    position: absolute; /* 改用绝对定位 */
+    left: -180px; /* 从左侧起始位置 */
+    top: -250px; /* 与照片底部对齐 */
+    width: 180px;
+}
+
+* 技能标签云样式 */
+.skills-section {
+    background: transparent; /* 移除背景色 */
+    padding: 0; /* 移除内边距 */
+    border-radius: 0; /* 移除圆角 */
+}
+
+.skills-section h2 {
+    font-size: 2em; /* 与其他标题保持一致 */
+    margin-bottom: 30px;
+    color: #000;
+    font-weight: bold;
+    white-space: nowrap; /* 防止标题换行 */
+    display: inline-block; /* 确保标题在一行 */
+}
+
+.skills-cloud {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.skill-tag {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.skill-tag:hover {
+    transform: translateX(10px);
+    border-bottom: 2px solid #4a90e2; /* 悬停时显示底部边框 */
+    color: #4a90e2; /* 悬停时改变文字颜色 */
+}
+    </style>
+</head>
+<body>
+   <!-- 头部区域 -->
+   <div class="header-container">
+    <div class="main-title">
+        <h1>Hi, I'm Daisy Hu</h1>
+        <div class="subtitle">
+            销售运营专家 | 项目管理专家| CRM专家 | 可持续发展顾问 | AI玩家
+        </div>
+    </div>
+    <img src="image/profile.jpg" alt="Daisy Hu" class="profile-photo">
+</div>
+
+<!-- 添加两栏布局容器 -->
+<div class="page-container">
+    <!-- 左侧边栏 -->
+    <div class="sidebar">
+        <div class="skills-section">
+            <h2>Professional Skills</h2>
+                <div class="skills-cloud">
+                    <span class="skill-tag">销售运营</span>
+                    <span class="skill-tag">项目管理</span>
+                    <span class="skill-tag">CRM</span>
+                    <span class="skill-tag">可持续发展</span>
+                    <span class="skill-tag">Pipeline管理</span>
+                    <span class="skill-tag">流程优化</span>
+                    <span class="skill-tag">跨部门协调</span>
+                    <span class="skill-tag">数据分析</span>
+                    <span class="skill-tag">团队管理</span>
+                    <span class="skill-tag">客户开发</span>
+                </div>
+            </div>
+        </div>
+    <!-- 内容区域 -->
+<div class="content-container">
+    <!-- About部分 -->
+    <section class="section">
+        <h2>About Me</h2>
+        <p>8年以上销售运营经验，5年一线Top sales销售工程师经验，深入理解客户开发、市场需求及销售赋能，执行力和落地能力强。
+            擅长流程优化及SOP实施，提升公司运营效率，具备跨部门协调与流程改革能力，推动内部创新。
+            具备强烈的自主性和企业家精神，善于在不确定环境中应对挑战并挖掘深层问题，学习能力突出，能快速适应并迁移知识。</p>
+    </section>
+
+    <!-- Work Experience部分 -->
+    <section class="section">
+        <h2>Work Experience</h2>
+        
+        <!-- JLL -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/jll-logo.png" alt="JLL" class="company-logo">
+                <span class="company-name">JLL 中国 (2022.6 - 2023.9)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">可持续发展商务总监</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>成功拓展并管理大中华区的绿色业务，与多家企业及投资客户建立合作关系</li>
+                        <li>为超过10个项目设计并实施减排方案，帮助客户降低碳足迹</li>
+                        <li>完成多项能源审计项目开发，有效提升建筑能效20%以上</li>
+                        <li>制定并指导实施科学减碳路径，为全球气候变化治理做出实质贡献</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 施耐德电气 -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/schneider-logo.png" alt="施耐德电气" class="company-logo">
+                <span class="company-name">施耐德电气（中国）有限公司 (2021.10 - 2022.5)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">销售运营经理</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>设计并实施Pipeline项目管理策略，提升团队执行力</li>
+                        <li>构建高效备货流程，减少库存积压，缩短交货周期</li>
+                        <li>协助推动产品国产化进程，降低成本，提高本土化程度</li>
+                        <li>建立合作伙伴培养机制，扩大销售网络</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 费斯托（2018-2020） -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/festo-logo.png" alt="费斯托" class="company-logo">
+                <span class="company-name">费斯托（中国）有限公司 (2018.1 - 2020.4)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">项目经理&卓越运营经理</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>拓展业务增长：落地市场细分和新客户开发战略，推动部门业务增长</li>
+                        <li>提升团队效率：优化150人销售团队的运营，减少管理层80%的日常问题</li>
+                        <li>解决业务痛点：跨部门协调及时解决难点痛点，提升公司响应与问题处理能力</li>
+                        <li>流程创新与优化：改革业务流程，提高客户体验，简化交易流程</li>
+                        <li>项目管理：运用pipeline管理，确保项目按时、高质交付，保障业务连续性</li>
+                        <li>数据驱动决策：通过深入分析，为库存管理、供应链计划提供前瞻性建议</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 费斯托（2014-2017） -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/festo-logo.png" alt="费斯托" class="company-logo">
+                <span class="company-name">费斯托（中国）有限公司 (2014.2 - 2017.12)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">销售运营经理</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>整合各职能部门资源，为战略大客户制定竞争策略</li>
+                        <li>主导SFE销售生产力项目，优化销售团队管理</li>
+                        <li>推动CRM工具应用，使用率从25%提升至95%，接受度从40%增长到96%</li>
+                        <li>搭建销售门户网站，提高工作效率，纳入新员工培训体系</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 空气化工 -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/airproducts-logo.png" alt="空气化工" class="company-logo">
+                <span class="company-name">空气化工产品（上海）有限公司 (2009.9 - 2014.1)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">高级销售工程师</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>负责上海区域气体客户开发，建立并维护稳固的客户网络</li>
+                        <li>首个半年内超越公司目标，荣获销售冠军</li>
+                        <li>连续被评为Top Sales，为公司带来持续的业绩增长</li>
+                        <li>2012年晋升为高级销售工程师，成功开拓医用气体新市场</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 金桥化工 -->
+        <div class="work-item">
+            <div class="company-header">
+                <img src="image/公司logo/jinqiao-logo.png" alt="金桥化工" class="company-logo">
+                <span class="company-name">江阴市金桥化工有限公司 (2008.7 - 2009.8)</span>
+            </div>
+            <div class="work-content">
+                <div class="work-title">销售助理</div>
+                <div class="work-description">
+                    <p><strong>主要成就：</strong></p>
+                    <ul>
+                        <li>负责核心部门的销售业务流程，被评为年度最佳新人</li>
+                        <li>精细化管理大客户合同，确保大批量发货顺利进行</li>
+                        <li>制作库存、应收款及在途货物报表，为决策提供数据支持</li>
+                        <li>独立开发潜在客户，对市场动态进行分析预测</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education部分 -->
+    <section class="section">
+        <h2>Education</h2>
+        <div class="education-item">
+            <div class="school-info">
+                <h3>2004.09 - 2008.06    南京财经大学</h3>
+                <p class="degree">本科，应用化学专业</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact部分 -->
+    <section class="section">
+        <h2>Contact Me</h2>
+        <div class="contact-info">
+            <p><strong>邮箱：</strong>qianerhu@126.com</p>
+            <p><strong>电话：</strong>13761570209</p>
+            <p><strong>所在地：</strong>上海</p>
+        </div>
+    </section>
+
+    <!-- Life Moments部分 -->
+    <section class="section">
+        <h2>Life Moments</h2>
+        <div class="slideshow-container">
+            <div class="slides-wrapper">
+                <div class="slides">
+                    <img src="image/生活照/短发.jpg" alt="生活照">
+                </div>
+                <div class="slides">
+                    <img src="image/生活照/红裙.jpg" alt="生活照">
+                </div>
+                <div class="slides">
+                    <img src="image/生活照/马尾.jpg" alt="生活照">
+                </div>
+                <div class="slides">
+                    <img src="image/生活照/猫咪.jpg" alt="生活照">
+                </div>
+                <div class="slides">
+                    <img src="image/生活照/梅花.jpg" alt="生活照">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+    <!-- 轮播脚本 -->
+    <script>
+    let currentIndex = 0;
+    const slidesWrapper = document.querySelector('.slides-wrapper');
+    const slides = document.querySelectorAll('.slides');
+    const totalSlides = slides.length;
+
+    function slideNext() {
+        currentIndex = (currentIndex + 1) % (totalSlides - 2);
+        updateSlidePosition();
+    }
+
+    function updateSlidePosition() {
+        slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+    }
+
+    // 每3秒自动滑动
+    setInterval(slideNext, 3000);
+   
+</script>
+<!-- 聊天界面 -->
+<div class="chat-container" id="draggableChat">
+    <div class="chat-header" id="chatHeader">
+        <img src="image/生活照/猫咪.jpg" alt="Daisy" class="assistant-avatar"> 
+        <span>Daisy的AI小助理</span>
+        <button class="minimize-btn">-</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- 添加这个欢迎消息 -->
+        <div class="message bot">
+            您好，我是Daisy的AI小助理，请问有什么可以帮您的吗？
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="请输入您的问题...">
+        <button onclick="sendMessage()">发送</button>
+    </div>
+</div>
+<!-- 添加聊天相关的JavaScript -->
+<script>
+async function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    
+    if (!message) return;
+
+    // 显示用户消息
+    appendMessage(message, 'user');
+    userInput.value = '';
+
+    try {
+        const response = await fetch('http://localhost:3000/api/chat/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // 显示AI回复
+        appendMessage(data.response, 'bot');
+    } catch (error) {
+        console.error('Error:', error);
+        appendMessage('抱歉，出现了一些错误，请稍后再试。', 'bot');
+    }
+}
+
+function appendMessage(message, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 添加回车发送功能
+document.getElementById('userInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+// 添加拖动功能
+const chatContainer = document.getElementById('draggableChat');
+const chatHeader = document.getElementById('chatHeader');
+let isDragging = false;
+let currentX;
+let currentY;
+let initialX;
+let initialY;
+let xOffset = 0;
+let yOffset = 0;
+
+chatHeader.addEventListener('mousedown', dragStart);
+document.addEventListener('mousemove', drag);
+document.addEventListener('mouseup', dragEnd);
+
+function dragStart(e) {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+
+    if (e.target === chatHeader || e.target.parentNode === chatHeader) {
+        isDragging = true;
+    }
+}
+
+function drag(e) {
+    if (isDragging) {
+        e.preventDefault();
+        
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, chatContainer);
+    }
+}
+
+function setTranslate(xPos, yPos, el) {
+    el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+}
+
+function dragEnd(e) {
+    initialX = currentX;
+    initialY = currentY;
+    isDragging = false;
+}
+</script>
+
+    </div>
+</body>
+</html> 
