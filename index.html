@@ -542,7 +542,6 @@
         <div class="work-item">
             <div class="company-header">
                 <img src="image_for_github/company_logo/schneider-logo.png" alt="Schneider Electric" class="company-logo">
-</div>
                 <span class="company-name">施耐德电气（中国）有限公司 (2021.10 - 2022.5)</span>
             </div>
             <div class="work-content">
@@ -585,7 +584,6 @@
         <div class="work-item">
             <div class="company-header">
                 <img src="image_for_github/company_logo/festo-logo.png" alt="Festo" class="company-logo">
-</div>
                 <span class="company-name">费斯托（中国）有限公司 (2014.2 - 2017.12)</span>
             </div>
             <div class="work-content">
@@ -606,7 +604,6 @@
         <div class="work-item">
             <div class="company-header">
                 <img src="image_for_github/company_logo/airproducts-logo.png" alt="Air Products" class="company-logo">
-</div>
                 <span class="company-name">空气化工产品（上海）有限公司 (2009.9 - 2014.1)</span>
             </div>
             <div class="work-content">
@@ -627,7 +624,6 @@
         <div class="work-item">
             <div class="company-header">
                 <img src="image_for_github/company_logo/jinqiao-logo.png" alt="Jinqiao Chemical" class="company-logo">
-</div>
                 <span class="company-name">江阴市金桥化工有限公司 (2008.7 - 2009.8)</span>
             </div>
             <div class="work-content">
@@ -708,24 +704,6 @@
     setInterval(slideNext, 3000);
    
 </script>
-<!-- 聊天界面 -->
-<div class="chat-container" id="draggableChat">
-    <div class="chat-header" id="chatHeader">
-       <img src="image_for_github/life_photo/photo4.jpg" alt="Assistant Avatar" class="assistant-avatar"> 
-        <span>Daisy的AI小助理</span>
-        <button class="minimize-btn">-</button>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-        <!-- 添加这个欢迎消息 -->
-        <div class="message bot">
-            您好，我是Daisy的AI小助理，请问有什么可以帮您的吗？
-        </div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="userInput" placeholder="请输入您的问题...">
-        <button onclick="sendMessage()">发送</button>
-    </div>
-</div>
 <!-- 添加聊天相关的JavaScript -->
 <script>
 async function sendMessage() {
@@ -825,5 +803,121 @@ function dragEnd(e) {
 </script>
 
     </div>
+     <!-- 聊天对话框 -->
+    <div class="chat-container" id="draggableChat">
+        <div class="chat-header" id="chatHeader">
+            <img src="image_for_github/life_photo/photo4.jpg" alt="Assistant Avatar" class="assistant-avatar">
+            <span>Daisy的AI小助理</span>
+            <button class="minimize-btn">-</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                您好，我是Daisy的AI小助理，请问有什么可以帮您的吗？
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="请输入您的问题...">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <!-- 聊天相关的JavaScript -->
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (!message) return;
+
+            // 显示用户消息
+            appendMessage(message, 'user');
+            userInput.value = '';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/chat/message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // 显示AI回复
+                appendMessage(data.response, 'bot');
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('抱歉，出现了一些错误，请稍后再试。', 'bot');
+            }
+        }
+
+        function appendMessage(message, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 添加回车发送功能
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 添加拖动功能
+        const chatContainer = document.getElementById('draggableChat');
+        const chatHeader = document.getElementById('chatHeader');
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        chatHeader.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === chatHeader || e.target.parentNode === chatHeader) {
+                isDragging = true;
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, chatContainer);
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+    </script>          
 </body>
 </html> 
