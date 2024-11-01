@@ -20,7 +20,6 @@
             }
         }
     </script>
-<script>
     // 结构化简历数据
     const resumeData = {
         profile: {
@@ -125,7 +124,6 @@
         });
     });
 </script>
-    </script>
     
     <style>
         /* 基本页面样式 */
@@ -381,7 +379,7 @@
     display: table;
     clear: both;
 }
-./* 修改聊天输入框的样式 */
+/* 修改聊天输入框的样式 */
 .chat-input {
     display: flex;
     padding: 10px;
@@ -442,7 +440,7 @@
     width: 180px;
 }
 
-* 技能标签云样式 */
+/* 技能标签云样式 */
 .skills-section {
     background: transparent; /* 移除背景色 */
     padding: 0; /* 移除内边距 */
@@ -692,74 +690,6 @@
     <img src="image_for_github/life_photo/photo5.jpg" alt="Life Photo 5">
 </div>
 
-    <!-- 轮播脚本 -->
-    <script>
-    let currentIndex = 0;
-    const slidesWrapper = document.querySelector('.slides-wrapper');
-    const slides = document.querySelectorAll('.slides');
-    const totalSlides = slides.length;
-
-    function slideNext() {
-        currentIndex = (currentIndex + 1) % (totalSlides - 2);
-        updateSlidePosition();
-    }
-
-    function updateSlidePosition() {
-        slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
-    }
-
-    // 每3秒自动滑动
-    setInterval(slideNext, 3000);
-   
-<script src="chat.js"></script>
-
-// 添加拖动功能
-const chatContainer = document.getElementById('draggableChat');
-const chatHeader = document.getElementById('chatHeader');
-let isDragging = false;
-let currentX;
-let currentY;
-let initialX;
-let initialY;
-let xOffset = 0;
-let yOffset = 0;
-
-chatHeader.addEventListener('mousedown', dragStart);
-document.addEventListener('mousemove', drag);
-document.addEventListener('mouseup', dragEnd);
-function dragStart(e) {
-    initialX = e.clientX - xOffset;
-    initialY = e.clientY - yOffset;
-
-    if (e.target === chatHeader || e.target.parentNode === chatHeader) {
-        isDragging = true;
-        chatContainer.classList.add('dragging'); // 添加拖动类
-    }
-}
-
-function dragEnd(e) {
-    initialX = currentX;
-    initialY = currentY;
-    isDragging = false;
-    chatContainer.classList.remove('dragging'); // 移除拖动类
-    
-    // 保存新位置
-    const rect = chatContainer.getBoundingClientRect();
-    chatContainer.style.right = `${window.innerWidth - rect.right}px`;
-    chatContainer.style.bottom = `${window.innerHeight - rect.bottom}px`;
-}
-
-function setTranslate(xPos, yPos, el) {
-    el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-}
-
-function dragEnd(e) {
-    initialX = currentX;
-    initialY = currentY;
-    isDragging = false;
-}
-</script>
-
     </div>
      <!-- 聊天对话框 -->
     <div class="chat-container" id="draggableChat">
@@ -778,57 +708,28 @@ function dragEnd(e) {
             <button onclick="sendMessage()">发送</button>
         </div>
     </div>
+<script src="chat.js"></script>
+<script>
+    let currentIndex = 0;
+    const slidesWrapper = document.querySelector('.slides-wrapper');
+    const slides = document.querySelectorAll('.slides');
+    const totalSlides = slides.length;
 
-    <!-- 聊天相关的JavaScript -->
-    <script>
-        async function sendMessage() {
-            const userInput = document.getElementById('userInput');
-            const message = userInput.value.trim();
-            
-            if (!message) return;
+    function slideNext() {
+        currentIndex = (currentIndex + 1) % (totalSlides - 2);
+        updateSlidePosition();
+    }
 
-            // 显示用户消息
-            appendMessage(message, 'user');
-            userInput.value = '';
+    function updateSlidePosition() {
+        slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+    }
 
-            try {
-                const response = await fetch('http://localhost:3000/api/chat/message', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message })
-                });
+    // 每3秒自动滑动
+    setInterval(slideNext, 3000);
+</script>
 
-                const data = await response.json();
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-                
-                // 显示AI回复
-                appendMessage(data.response, 'bot');
-            } catch (error) {
-                console.error('Error:', error);
-                appendMessage('抱歉，出现了一些错误，请稍后再试。', 'bot');
-            }
-        }
-
-        function appendMessage(message, sender) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            messageDiv.textContent = message;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // 添加回车发送功能
-        document.getElementById('userInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
+<script src="chat.js"></script>
+<script>
         // 添加拖动功能
         const chatContainer = document.getElementById('draggableChat');
         const chatHeader = document.getElementById('chatHeader');
