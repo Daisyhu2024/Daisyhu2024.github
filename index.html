@@ -310,8 +310,14 @@
     z-index: 1000;
     touch-action: none; 
     user-select: none; 
+    z-index: 1000;   /* 确保显示在最上层 */
+    transform: none !important;  /* 防止拖动时的transform影响固定位置 */
 }
-
+/* 添加新的样式用于控制拖动 */
+.chat-container.dragging {
+    position: absolute;  /* 拖动时改变定位方式 */
+    transform: translate3d(0, 0, 0) !important;
+}
 .chat-header {
     cursor: move;
     padding: 10px;
@@ -767,28 +773,26 @@ let yOffset = 0;
 chatHeader.addEventListener('mousedown', dragStart);
 document.addEventListener('mousemove', drag);
 document.addEventListener('mouseup', dragEnd);
-
 function dragStart(e) {
     initialX = e.clientX - xOffset;
     initialY = e.clientY - yOffset;
 
     if (e.target === chatHeader || e.target.parentNode === chatHeader) {
         isDragging = true;
+        chatContainer.classList.add('dragging'); // 添加拖动类
     }
 }
 
-function drag(e) {
-    if (isDragging) {
-        e.preventDefault();
-        
-        currentX = e.clientX - initialX;
-        currentY = e.clientY - initialY;
-
-        xOffset = currentX;
-        yOffset = currentY;
-
-        setTranslate(currentX, currentY, chatContainer);
-    }
+function dragEnd(e) {
+    initialX = currentX;
+    initialY = currentY;
+    isDragging = false;
+    chatContainer.classList.remove('dragging'); // 移除拖动类
+    
+    // 保存新位置
+    const rect = chatContainer.getBoundingClientRect();
+    chatContainer.style.right = `${window.innerWidth - rect.right}px`;
+    chatContainer.style.bottom = `${window.innerHeight - rect.bottom}px`;
 }
 
 function setTranslate(xPos, yPos, el) {
