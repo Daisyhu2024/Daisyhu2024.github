@@ -1,12 +1,3 @@
-function appendMessage(message, sender) {
-    const chatBox = document.getElementById('chatBox');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}`;
-    messageDiv.textContent = message;
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const message = userInput.value.trim();
@@ -18,19 +9,39 @@ async function sendMessage() {
     userInput.value = '';
 
     try {
-        // 调用我们部署的API
         const response = await fetch('https://chat-api-weld.vercel.app/api/chat/message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ message })
         });
 
         const data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // 显示AI回复
         appendMessage(data.response, 'bot');
     } catch (error) {
         console.error('Error:', error);
-        appendMessage('抱歉，我现在无法回答。请稍后再试。', 'bot');
+        appendMessage('抱歉，出现了一些错误，请稍后再试。', 'bot');
     }
 }
+
+function appendMessage(message, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 添加回车发送功能
+document.getElementById('userInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
