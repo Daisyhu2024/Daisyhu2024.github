@@ -19,10 +19,22 @@ export default async function handler(req, res) {
     try {
         const { message } = req.body;
         
-        // 这里先返回一个测试响应
-        const response = `收到消息：${message}`;
+        // 调用 DeepSeek API
+        const deepseekResponse = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer sk-14c3e89cfe1b4718a673215571050f73',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "deepseek-chat",
+                messages: [{ role: "user", content: message }]
+            })
+        });
+
+        const aiResponse = await deepseekResponse.json();
+        res.status(200).json({ response: aiResponse.choices[0].message.content });
         
-        res.status(200).json({ response });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal server error' });
