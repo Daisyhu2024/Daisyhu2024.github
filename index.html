@@ -585,8 +585,8 @@
     <img src="image_for_github/life_photo/photo5.jpg" alt="Life Photo 5">
 </div>
 
-    </div>
-     <!-- 聊天对话框 -->
+     </div>
+    <!-- 聊天对话框 -->
     <div class="chat-container" id="draggableChat">
         <div class="chat-header" id="chatHeader">
             <img src="image_for_github/life_photo/photo4.jpg" alt="Assistant Avatar" class="assistant-avatar">
@@ -603,75 +603,32 @@
             <button onclick="sendMessage()">发送</button>
         </div>
     </div>
+</section>
+
+<!-- 所有JavaScript代码放在这里 -->
+<script>
+    // 轮播图功能
+    let currentIndex = 0;
+    const slidesWrapper = document.querySelector('.slides-wrapper');
+    const slides = document.querySelectorAll('.slides');
+    const totalSlides = slides.length;
+
+    function slideNext() {
+        currentIndex = (currentIndex + 1) % (totalSlides - 2);
+        updateSlidePosition();
+    }
+
+    function updateSlidePosition() {
+        slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+    }
+
     // 每3秒自动滑动
     setInterval(slideNext, 3000);
+
+    // 其他JavaScript代码...
 </script>
-       </section>
-    <script>
-        // 轮播图功能
-        let currentIndex = 0;
-        const slidesWrapper = document.querySelector('.slides-wrapper');
-        const slides = document.querySelectorAll('.slides');
-        const totalSlides = slides.length;
 
-        function slideNext() {
-            currentIndex = (currentIndex + 1) % (totalSlides - 2);
-            updateSlidePosition();
-        }
-
-        function updateSlidePosition() {
-            slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
-        }
-
-        // 每3秒自动滑动
-        setInterval(slideNext, 3000);
-
-        // 拖拽功能
-        const chatContainer = document.getElementById('draggableChat');
-        const chatHeader = document.getElementById('chatHeader');
-        let isDragging = false;
-        let currentX;
-        let currentY;
-        let initialX;
-        let initialY;
-        let xOffset = 0;
-        let yOffset = 0;
-
-        chatHeader.addEventListener('mousedown', dragStart);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', dragEnd);
-
-        function dragStart(e) {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-
-            if (e.target === chatHeader || e.target.parentNode === chatHeader) {
-                isDragging = true;
-            } }
-
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
-                xOffset = currentX;
-                yOffset = currentY;
-                setTranslate(currentX, currentY, chatContainer);
-            }
-        }
-
-        function setTranslate(xPos, yPos, el) {
-            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-        }
-
-        function dragEnd(e) {
-            initialX = currentX;
-            initialY = currentY;
-            isDragging = false;
-        }
-    </script>
-
-    <!-- 引入外部chat.js文件 -->
-    <script src="chat.js"></script>
+<!-- 引入外部chat.js -->
+<script src="chat.js"></script>
 </body>
 </html>
