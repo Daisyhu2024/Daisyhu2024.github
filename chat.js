@@ -1,3 +1,15 @@
+// 消息显示函数
+function appendMessage(message, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return messageDiv;
+}
+
+// 发送消息的主函数
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const message = userInput.value.trim();
@@ -61,7 +73,7 @@ async function sendMessage() {
                         "content": message
                     }
                 ],
-                temperature: 0.7  // 提高temperature使回答更自然
+                temperature: 0.7
             })
         });
 
@@ -79,3 +91,22 @@ async function sendMessage() {
         appendMessage('抱歉，我遇到了一些技术问题。请稍后再试。', 'bot');
     }
 }
+
+// 添加事件监听器
+document.addEventListener('DOMContentLoaded', function() {
+    // 发送按钮点击事件
+    const sendButton = document.querySelector('.send-btn');
+    if (sendButton) {
+        sendButton.addEventListener('click', sendMessage);
+    }
+
+    // 输入框回车事件
+    const userInput = document.getElementById('userInput');
+    if (userInput) {
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+});
