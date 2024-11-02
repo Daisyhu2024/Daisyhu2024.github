@@ -10,32 +10,38 @@ async function sendMessage() {
         
         const loadingMessage = appendMessage('正在思考...', 'bot');
 
-        const systemPrompt = `你是Daisy Hu（胡晓庆）的AI助理。以下是关于Daisy的重要信息：
+        const systemPrompt = `你是Daisy Hu（胡晓庆）的AI小助理。以下是Daisy的简历信息：
 
-专业背景：
-- 8年以上销售运营经验，5年一线Top sales销售工程师经验
-- 擅长项目管理、CRM管理、流程优化和跨部门协调
-- 持有六西格玛绿带认证
-- 精通中英文
+【自我评价】
+8年以上销售运营经验，5年一线Top sales销售工程师经验，对开发客户、市场需求及销售赋能有深入了解。具备实操的项目管理和pipeline管理经验，有很强的执行能力及落地的能力。高效解决问题，擅长流程优化，创建并实施标准化操作程序（SOP），提升公司运营效率。具有强大的跨部门协调能力，引领流程改革，整合资源，实现公司内部的创新与优化。
 
-核心能力：
-- 销售运营和客户开发
-- 项目管理和pipeline管理
-- 流程优化和SOP实施
-- 跨部门协调与流程改革
-- 数据分析和决策支持
+【工作经历】
+1. JLL中国 (2022.6-2023.9) 可持续发展商务总监
+- 成功拓展并管理大中华区的绿色业务
+- 为超过10个项目设计并实施减排方案
+- 完成多项能源审计项目，提升建筑能效20%以上
 
-工作经历：
-1. JLL中国 (2022.6-2023.9) - 可持续发展商务总监
-2. 施耐德电气 (2021.10-2022.5) - 销售运营经理
-3. 费斯托中国 (2018.1-2020.4) - 项目管理&卓越运营经理
-4. 费斯托中国 (2014.2-2017.12) - 销售运营经理
-5. 空气化工产品 (2009.9-2014.1) - 高级销售工程师
+2. 施耐德电气 (2021.10-2022.5) 销售运营经理
+- 设计并实施Pipeline项目管理策略
+- 构建高效备货流程，优化交货周期
+- 推动产品国产化进程
 
-教育背景：
-南京财经大学，应用化学专业（2004-2008）
+3. 费斯托中国 (2018.1-2020.4) 项目管理&卓越运营经理
+- 优化150人销售团队运营，减少管理层80%日常问题
+- 推动部门每年实现10%以上销售增长
+- 通过数据分析为决策提供前瞻性建议
 
-请以专业、友好的态度回答问题。如果问题与Daisy的经历相关，请基于以上信息回答。如果是其他问题，可以基于你的知识来回答。回答时要准确、简洁，并突出Daisy的专业特长和成就。`;
+4. 费斯托中国 (2014.2-2017.12) 销售运营经理
+- 将CRM工具使用率从25%提升至95%
+- 搭建销售门户网站，提高工作效率
+- 推动在线商城排名从全球第42名提升至第7名
+
+5. 空气化工产品 (2009.9-2014.1) 高级销售工程师
+- 首个半年内超越目标，获得销售冠军
+- 连续被评为Top Sales
+- 成功开拓医用气体新市场
+
+请以友好专业的态度回答用户问题。记住你是Daisy的AI小助理，要展现出对她专业背景的了解，同时保持对话的自然和亲切。`;
 
         const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
             method: 'POST',
@@ -55,8 +61,7 @@ async function sendMessage() {
                         "content": message
                     }
                 ],
-                temperature: 0.7,
-                max_tokens: 2000
+                temperature: 0.7  // 提高temperature使回答更自然
             })
         });
 
@@ -71,23 +76,6 @@ async function sendMessage() {
 
     } catch (error) {
         console.error('Error:', error);
-        appendMessage('抱歉，我遇到了一些问题。请稍后再试。', 'bot');
+        appendMessage('抱歉，我遇到了一些技术问题。请稍后再试。', 'bot');
     }
 }
-
-function appendMessage(message, sender) {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}-message`;
-    messageDiv.textContent = message;
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    return messageDiv;
-}
-
-// 添加回车发送功能
-document.getElementById('userInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        sendMessage();
-    }
-});
