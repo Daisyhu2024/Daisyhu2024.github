@@ -55,15 +55,25 @@ async function sendMessage() {
 
 请以友好专业的态度回答用户问题。记住你是Daisy的AI小助理，要展现出对她专业背景的了解，同时保持对话的自然和亲切。`;
 
-        // 通过 Vercel API 路由发送请求
-        const response = await fetch('/api/chat', {
+        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer sk-14c3e89cfe1b4718a673215571050f73'
             },
             body: JSON.stringify({
-                message: message,
-                systemPrompt: systemPrompt
+                model: "deepseek-chat",
+                messages: [
+                    {
+                        "role": "system",
+                        "content": systemPrompt
+                    },
+                    {
+                        "role": "user",
+                        "content": message
+                    }
+                ],
+                temperature: 0.7
             })
         });
 
