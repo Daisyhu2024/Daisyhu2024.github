@@ -603,25 +603,30 @@
             <button onclick="sendMessage()">发送</button>
         </div>
     </div>
-<script>
-    let currentIndex = 0;
-    const slidesWrapper = document.querySelector('.slides-wrapper');
-    const slides = document.querySelectorAll('.slides');
-    const totalSlides = slides.length;
-
-    function slideNext() {
-        currentIndex = (currentIndex + 1) % (totalSlides - 2);
-        updateSlidePosition();
-    }
-
-    function updateSlidePosition() {
-        slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
-    }
-
     // 每3秒自动滑动
     setInterval(slideNext, 3000);
 </script>
-        // 添加拖动功能
+       </section>
+    <script>
+        // 轮播图功能
+        let currentIndex = 0;
+        const slidesWrapper = document.querySelector('.slides-wrapper');
+        const slides = document.querySelectorAll('.slides');
+        const totalSlides = slides.length;
+
+        function slideNext() {
+            currentIndex = (currentIndex + 1) % (totalSlides - 2);
+            updateSlidePosition();
+        }
+
+        function updateSlidePosition() {
+            slidesWrapper.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+        }
+
+        // 每3秒自动滑动
+        setInterval(slideNext, 3000);
+
+        // 拖拽功能
         const chatContainer = document.getElementById('draggableChat');
         const chatHeader = document.getElementById('chatHeader');
         let isDragging = false;
@@ -642,19 +647,15 @@
 
             if (e.target === chatHeader || e.target.parentNode === chatHeader) {
                 isDragging = true;
-            }
-        }
+            } }
 
         function drag(e) {
             if (isDragging) {
                 e.preventDefault();
-                
                 currentX = e.clientX - initialX;
                 currentY = e.clientY - initialY;
-
                 xOffset = currentX;
                 yOffset = currentY;
-
                 setTranslate(currentX, currentY, chatContainer);
             }
         }
@@ -668,7 +669,9 @@
             initialY = currentY;
             isDragging = false;
         }
-    <script src="chat.js">
-    </script>          
+    </script>
+
+    <!-- 引入外部chat.js文件 -->
+    <script src="chat.js"></script>
 </body>
-</html> 
+</html>
