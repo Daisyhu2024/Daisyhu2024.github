@@ -60,6 +60,7 @@ async function sendMessage() {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer sk-14c3e89cfe1b4718a673215571050f73'
+                 'Access-Control-Allow-Origin': '*'  // 添加这行
             },
             body: JSON.stringify({
                 model: "deepseek-chat",
